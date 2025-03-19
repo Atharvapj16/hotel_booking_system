@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="ask-page">
+    <h2>Ask a Question</h2>
+    <p>Type your question below and get answers powered by AI:</p>
+    <form id="question-form">
+        <input type="text" id="question-input" placeholder="e.g., What is the cancellation rate?" required>
+        <button type="submit" class="btn">Submit</button>
+    </form>
+    <div id="answer-results">
+        <!-- Answer will be displayed here dynamically -->
+    </div>
+</div>
+
+<script>
+    document.getElementById('question-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const question = document.getElementById('question-input').value;
+        const response = await fetch('/ask', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question })
+        });
+        const data = await response.json();
+        document.getElementById('answer-results').innerHTML = `
+            <h3>Answer:</h3>
+            <p>${data.answer}</p>
+        `;
+    });
+</script>
+{% endblock %}

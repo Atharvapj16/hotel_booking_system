@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="analytics-page">
+    <h2>Analytics Dashboard</h2>
+    <p>Below are the insights generated from the hotel booking data:</p>
+    <div id="analytics-results">
+        <!-- Analytics results will be displayed here dynamically -->
+    </div>
+    <button id="fetch-analytics" class="btn">Fetch Analytics</button>
+</div>
+
+<script>
+    document.getElementById('fetch-analytics').addEventListener('click', async () => {
+        const response = await fetch('/analytics', { method: 'POST' });
+        const data = await response.json();
+        document.getElementById('analytics-results').innerHTML = `
+            <pre>${JSON.stringify(data, null, 2)}</pre>
+        `;
+    });
+</script>
+{% endblock %}
